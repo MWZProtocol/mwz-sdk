@@ -1,0 +1,4 @@
+/packages/             @MWZProtocol/core
+/artifacts/            @MWZProtocol/protocol @MWZProtocol/core
+/examples/             @MWZProtocol/core
+/CODEOWNERS            @MWZProtocol/core @MWZProtocol/security
