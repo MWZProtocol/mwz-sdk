@@ -2,82 +2,88 @@
 
 **PUBLIC REPOSITORY**
 
-Public developer SDK for integrating with MWZProtocol DEX and Warzone Markets.
+Public developer SDK and integration contract for MWZProtocol DEX and Warzone Markets.
 
-This is the official public contract between MWZProtocol and:
+This repository is the intentionally public boundary between MWZProtocol and:
+
 - MemeWarzone Launchpad
-- External projects and integrations
-- Wallet integrations
-- Aggregators and routing partners
-- Future integration partners
+- external projects and integrations
+- wallet integrations
+- aggregators and routing partners
+- future integration partners
 
 ## What's Here
 
-✅ Public API clients and types
-✅ Market data interfaces
-✅ Trading quote generation
-✅ Transaction builders for external users
-✅ Public ABI and IDL artifacts
-✅ Event type definitions
-✅ Examples and integration guides
-✅ TypeScript/JavaScript SDK packages
+This repository is intended to expose only approved public integration material, including:
+
+- public API clients and types
+- market-data interfaces
+- trading quote and execution interfaces
+- transaction builders intended for external users
+- approved public ABI and IDL artifacts
+- public event type definitions
+- examples and integration guides
+- TypeScript/JavaScript SDK packages
 
 ## What's NOT Here
 
-❌ Private backend implementation
-❌ Internal route signing keys
-❌ Internal abuse/safety rules
-❌ Private security scoring
-❌ Database implementation
-❌ Admin endpoints
-❌ Secrets or credentials
+This repository must not contain:
 
-## Public/Private Boundary
+- private backend implementation
+- route-signing keys or signer material
+- internal abuse/safety thresholds
+- private security scoring
+- database implementation
+- privileged/admin endpoints
+- infrastructure secrets or credentials
+- private operational configuration
 
+## Public / Private Boundary
+
+```text
+PRIVATE IMPLEMENTATION
+mwz-dex / mwz-protocol-core / mwz-infrastructure / mwz-docs
+        ↓
+approved versioned public contract
+        ↓
+mwz-sdk + public APIs + approved ABI/IDL/events
+        ↓
+MemeWarzone Launchpad / external integrations
 ```
-PRIVATE IMPLEMENTATION (mwz-dex, mwz-protocol-core, mwz-infrastructure)
-        ↓
-MWZProtocol services/protocol
-        ↓
-PUBLIC VERSIONED CONTRACT (mwz-sdk)
-        ↓
-External integrations/consumers
-```
 
-External consumers must NOT import directly from:
-- mwz-dex
-- mwz-protocol-core
-- mwz-infrastructure
-- mwz-docs
-
-They consume only:
-- mwz-sdk packages
-- Public APIs
-- Public ABI/IDL artifacts
-- Documented events
+External consumers must not import directly from private MWZProtocol repositories. They consume only the public SDK, documented APIs, approved ABI/IDL artifacts, and documented events.
 
 ## Getting Started
 
-See [Getting Started Guide](./getting-started/) for integration examples.
+See [Getting Started](./getting-started/) for the current integration status and examples.
 
 ## Package Namespace
 
-Official namespace: `@mwzprotocol/*`
+Reserved namespace: `@mwzprotocol/*`
 
-Published packages include:
-- `@mwzprotocol/core` - Core types and utilities
-- `@mwzprotocol/markets` - Market data client
-- `@mwzprotocol/trading` - Trading quote and execution
-- `@mwzprotocol/evm` - EVM contract interactions
-- `@mwzprotocol/solana` - Solana program interactions
-- `@mwzprotocol/react` - React hooks and components
+Planned package layout:
 
-## API Status
+- `@mwzprotocol/core` — shared public types and utilities
+- `@mwzprotocol/markets` — market-data client
+- `@mwzprotocol/trading` — quote and execution interfaces
+- `@mwzprotocol/evm` — approved EVM integration helpers
+- `@mwzprotocol/solana` — approved Solana integration helpers
+- `@mwzprotocol/react` — optional React bindings
 
-⚠️ **PRE-RELEASE**: Interfaces and APIs may change until v1.0.0 is released.
+These package names describe the intended public surface. Do not assume a package is published until a tagged release and registry publication are explicitly available.
 
-See [Versioning](./versioning/) for stability guarantees.
+## Versioning
+
+**PRE-RELEASE:** interfaces may change until the first stable `v1.0.0` release.
+
+Public artifacts must be versioned deliberately. Private repository changes do not automatically become public SDK changes.
+
+See [Versioning](./versioning/) for stability rules as they are finalized.
+
+## Security
+
+Never report vulnerabilities through public issue content if they could expose users or infrastructure. Follow [SECURITY.md](./SECURITY.md).
 
 ## License
 
-MIT
+MIT License. See [LICENSE](./LICENSE).
