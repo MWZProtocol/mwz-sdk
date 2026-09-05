@@ -1,0 +1,39 @@
+name: Public SDK Boundary
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  public-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reject tracked secrets and environment files
+        shell: bash
+        run: |
+          set -euo pipefail
+          bad="$(git ls-files | grep -E '(^|/)(\.env($|\.)|.*\.(pem|p12|pfx|jks|keystore|mnemonic|secret)$)' | grep -v -E '\.env(\.[A-Za-z0-9_-]+)?\.example$' || true)"
+          if [ -n "$bad" ]; then
+            echo "Potential secret/environment files are tracked in the public SDK repository:"
+            echo "$bad"
+            exit 1
+          fi
+
+      - name: Check required public-boundary files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(README.md LICENSE SECURITY.md CODEOWNERS packages artifacts examples)
+          for path in "${required[@]}"; do
+            test -e "$path" || { echo "Missing required public SDK path: $path"; exit 1; }
+          done
+
+      - name: Require pre-release warning until stable release
+        shell: bash
+        run: grep -q "PRE-RELEASE" README.md
